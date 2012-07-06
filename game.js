@@ -122,15 +122,17 @@ function draw() {
         bricks[row][col] = 0;
     }
  
-    if (x + spdx > canvas.width || x + spdx < 0) {
+    if (x + spdx + ballr > canvas.width || x + spdx - ballr < 0) {
         spdx = -1 * spdx;
     }
-    if (y + spdy < 0) {
+    if (y + spdy - ballr < 0) {
         spdy = -1 * spdy;
-    } else if (y + spdy > canvas.height) {
+    } else if (y + spdy + ballr > canvas.height - paddleh) {
         if (x > paddlex && x < paddlex + paddlew) {
-            spdy = -spdy;
-        } else {
+            spdx = 8 * ((x-(paddlex + paddlew / 2)) / paddlew);
+            spdy = -1 * spdy;
+        } 
+        else if (y + spdy + ballr > canvas.height){
             clearInterval(intervalId);
         }
     }
