@@ -12,15 +12,14 @@ var paddlecol = "rgba(105, 201, 0, 1)";
 var ballcol = "rgba(225, 225, 0, 1)";
 var backcol = "rgba (255, 255, 0, 1)"; 
 var x = 129;
-var y = 200;
-var spdx = 2;
+var y = 200; var spdx = 2;
 var spdy = 4.6;
-var paddlex = canvas.width / 3;
 var paddleh = 20;
-var paddlew = 250;
+var paddlew = 150;
+var paddlex = (canvas.width - paddlew) / 2;
 var intervalId = 0;
 var canvasMinX = 0;
-var canvasMaxX = canvas.width;
+var canvasMaxX = canvasMinX + canvas.width;
 var numrow = 5;
 var numcol = 5;
 var brickw = (canvas.width/numcol) - 1;
@@ -34,9 +33,6 @@ for (i=0; i < numrow; i++) {
     for (j=0; j < numcol; j++){
         bricks [i][j] = 1;
     }
-}
-
-function init_mouse() {
 }
 
 function onMouseMove(evt) {
@@ -54,7 +50,6 @@ function init(){
 }
 
 function rectangle(x, y, w, h){
-    //ctx.fillStyle = "rgba(198, 097, 0, 0.5)";
     ctx.beginPath();
     ctx.rect(x, y, w, h);
     ctx.closePath();
@@ -62,7 +57,6 @@ function rectangle(x, y, w, h){
 }
 
 function circle(x, y, radius) {
-    //ctx.fillStyle = "rgba(255, 255, 0, 1)";
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI*2, true);
     ctx.closePath();
@@ -95,8 +89,8 @@ function draw() {
     ctx.fillStyle = ballcol;
     circle(x, y, ballr);
     
-    if (rightDown == true) {paddlex += paddlesp;}
-    else if (leftDown == true) {paddlex -= paddlesp;}
+        if (rightDown == true && paddlex + paddlew < canvasMaxX) {paddlex += paddlesp;} 
+        else if (leftDown == true && paddlex > canvasMinX) {paddlex -= paddlesp;}
     ctx.fillStyle = paddlecol;
     rectangle(paddlex, canvas.height - paddleh, paddlew, paddleh);   
 
@@ -127,7 +121,7 @@ function draw() {
     }
     if (y + spdy - ballr < 0) {
         spdy = -1 * spdy;
-    } else if (y + spdy + ballr > canvas.height - paddleh) {
+    } else if (y + ballr > canvas.height - paddleh) {
         if (x > paddlex && x < paddlex + paddlew) {
             spdx = 8 * ((x-(paddlex + paddlew / 2)) / paddlew);
             spdy = -1 * spdy;
@@ -141,4 +135,3 @@ function draw() {
 }
 
 init ();
-init_mouse();
