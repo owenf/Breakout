@@ -113,13 +113,13 @@ function draw() {
     } 
     
     //break bricks
-    rh = brickh + pad;
-    cw = brickw + pad;
-    r = Math.floor(y/rh);
-    c = Math.floor(x/cw);
-    if (y < numrow * rh && r >= 0 && c >= 0 && bricks[r][c] == 1) {
+    rowheight = brickh + pad;
+    colwidth = brickw + pad;
+    row = Math.floor(y/rowheight);
+    col = Math.floor(x/colwidth);
+    if (y < numrow * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
         spdy = -1 * spdy;
-        bricks[r][c] = 0;
+        bricks[row][col] = 0;
     }
  
     if (x + spdx > canvas.width || x + spdx < 0) {
