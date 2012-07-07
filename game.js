@@ -3,30 +3,38 @@ var ctx = canvas.getContext("2d");
 canvas.width = 500;
 canvas.height = 500;
 
+//Variables
 var ballr = 10;
+var wallreboundsp = 1;
 var rowcol =
-        ["rgba(214, 142, 0, 0.5)",
-         "rgba(114, 042, 0, 0.5)",
-         "rgba(000, 239, 0, 0.5)"];
-var paddlecol = "rgba(105, 201, 0, 1)";
-var ballcol = "rgba(225, 225, 0, 1)";
+        ["rgba(255, 0, 0, 1)",
+         "rgba(255, 100, 0, 1)",
+         "rgba(255, 255, 0, 1)",
+         "rgba(0, 255, 0, 1)",
+         "rgba(0, 0, 255, 1)",
+         "rgba(128, 0, 200, 1)",
+         "rgba(255, 0, 255, 1)"];
+var paddlecol = "rgba(150, 150, 225, 1)";
+var ballcol = "rgba(225, 225, 255, 1)";
 var backcol = "rgba (255, 255, 0, 1)"; 
-var x = 129;
-var y = 200; var spdx = 2;
-var spdy = 4.6;
+var spdx = 2 ;
+var spdy = 5 ;
 var paddleh = 20;
 var paddlew = 150;
 var paddlex = (canvas.width - paddlew) / 2;
+var x = paddlex + (paddlew / 2); 
+var y = canvas.height - paddleh - ballr; 
 var intervalId = 0;
 var canvasMinX = 0;
 var canvasMaxX = canvasMinX + canvas.width;
-var numrow = 5;
+var numrow = 7;
 var numcol = 5;
 var brickw = (canvas.width/numcol) - 1;
 var brickh = 15;
 var pad = 1;
-var paddlesp = 20;
+var paddlesp = 10;
 var bricks = new Array(numrow);
+rightDown = false;
 
 for (i=0; i < numrow; i++) {
     bricks[i] = new Array(numcol);
@@ -35,6 +43,7 @@ for (i=0; i < numrow; i++) {
     }
 }
 
+//Function Library
 function onMouseMove(evt) {
     if (evt.pageX > canvasMinX && evt.pageX < canvasMaxX) {
         paddlex = evt.pageX - canvasMinX - (paddlew / 2);
@@ -45,7 +54,7 @@ $(document).mousemove(onMouseMove);
 
 function init(){
     document.body.appendChild(canvas);
-    intervalId = setInterval(draw, 20);
+    intervalId = setInterval(draw, 10);
     return intervalId;
 }
 
@@ -67,7 +76,6 @@ function clear(){
     ctx.clearRect (0, 0, canvas.width, canvas.height);
 }
 
-rightDown = false;
 leftDown = false;
 
 function onKeyDown(evt) {
@@ -78,7 +86,7 @@ function onKeyDown(evt) {
 function onKeyUp(evt) {
     if (evt.keyCode == 39) {rightDown = false;}
     else if (evt.keyCode == 37) {leftDown = false;}
-}
+    }
 
 $(document).keydown(onKeyDown);
 $(document).keyup(onKeyUp);
@@ -117,7 +125,7 @@ function draw() {
     }
  
     if (x + spdx + ballr > canvas.width || x + spdx - ballr < 0) {
-        spdx = -1 * spdx;
+        spdx = -wallreboundsp * spdx;
     }
     if (y + spdy - ballr < 0) {
         spdy = -1 * spdy;
@@ -134,4 +142,4 @@ function draw() {
     y += spdy;
 }
 
-init ();
+        init();
